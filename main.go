@@ -65,7 +65,7 @@ func main() {
 	}
 
 	var wg sync.WaitGroup
-
+	start := time.Now()
 	for i := 0; i < config.ThreadNumber; i++ {
 		wg.Add(1)
 		threadNO := i
@@ -93,19 +93,21 @@ func main() {
 
 			for j := 0; j < config.InsertNumber; j++ {
 				ctx, cancel := context.WithTimeout(context.Background(), time.Duration(config.QueryTimeout)*time.Second)
-				res, err := collection.InsertOne(ctx, jsonData)
+				_, err := collection.InsertOne(ctx, jsonData)
 				if err != nil {
 					log.Fatalf("Failed to insert document: %v", err)
 				}
 
-				id := res.InsertedID
-				log.Printf("Inserted document ID: %s", id)
+				// id := res.InsertedID
+				// log.Printf("Inserted document ID: %s", id)
 				cancel()
 			}
 			wg.Done()
 		}(threadNO)
 	}
 	wg.Wait()
+	end := time.Now()
+	fmt.Println("total time: ", end.Sub(start))
 	/* query part
 	ctx, cancel = context.WithTimeout(context.Background(), time.Duration(config.QueryTimeout)*time.Second)
 	defer cancel()
