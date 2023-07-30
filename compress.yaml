@@ -1,0 +1,11 @@
+caFilePath: 
+connectTimeout: 5
+queryTimeout: 30
+username: 
+password: 
+clusterEndpoint: 
+readPreference: 
+collectionName: 
+jsonFileName: 
+threadNumber: 100
+insertNumber: 10000
